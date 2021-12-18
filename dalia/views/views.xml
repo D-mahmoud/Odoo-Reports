@@ -1,0 +1,59 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+ <menuitem name="customization" id="dalia.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Orders" id="actions" parent="dalia.menu_root"/>
+     <record model="ir.ui.view" id="dalia.list">
+      <field name="name">dalia list</field>
+      <field name="model">dalia.dalia</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="phone"/>
+          <field name="description"/>
+         
+        </tree>
+      </field>
+</record>
+
+
+    <record model="ir.ui.view" id="dalia_id">
+    <field name="name">dalia.name</field>
+    <field name="model">dalia.dalia</field>
+    <field name="priority" eval="16"/>
+    <field name="arch" type="xml">
+       
+        <form string="dalia form">
+
+                <group colspan="2" col="2">
+                    <separator string="General Info" colspan="2"/>
+                    <field name="name"/>
+                     <field name="phone"/>
+          <field name="description"/>
+                </group>
+
+        </form>
+    </field>
+</record>
+
+<record model="ir.actions.act_window" id="dalia.action_window">
+      <field name="name">dalia.name</field>
+      <field name="res_model">dalia.dalia</field>
+      <field name="view_mode">tree,form</field>
+</record>
+  
+    <menuitem name="dalia List" id="dalia.menu_2_list" parent="actions" action="dalia.action_window"/>
+
+
+
+
+
+
+
+
+
+
+  
+  </data>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dalia_dalia_,dalia.dalia_,model_dalia_dalia,base.group_user,1,1,1,1
+access_warehouse_report_wizard,warehouse.report.wizard,model_warehouse_report_wizard,base.group_user,1,1,1,1
+access_item_trans_report_wizard,item.trans.report.wizard,model_item_trans_report_wizard,base.group_user,1,1,1,1
+access_vendor_balance_report_wizard,vendor.balance.report.wizard,model_vendor_balance_report_wizard,base.group_user,1,1,1,1
+

@@ -1,0 +1,157 @@
+<odoo>
+    <data>
+
+  <record id="warehouse_report_wizard" model="ir.ui.view">
+    <field name="name">Warehouse Report Wizard</field>
+    <field name="model">warehouse.report.wizard</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Warehouse Report">
+            <group>
+                <group>
+                    <field name="date_start"/>
+                </group>
+                <group>
+                    <field name="date_end"/>
+                </group>
+            </group>
+
+            <group>
+                <group>
+                    <field name="from_warehouse"/>
+                </group>
+                <group>
+                    <field name="to_warehouse"/>
+                </group>
+            </group>
+
+
+            <footer>
+                <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                <button string="Cancel" special="cancel"/>
+            </footer>
+            </form>
+        </field>
+    </record>
+
+<act_window id="action_warehouse_report_wizard" name="Warehouse Report"
+            res_model="warehouse.report.wizard" view_mode="form" target="new" />
+
+<menuitem action="action_warehouse_report_wizard" id="menu_warehouse_report"
+          parent="purchase.purchase_report"/>
+
+
+    <record id="paperformat_warehouse_report_wizard" model="report.paperformat">
+    <field name="name">Warehouse Summary</field>
+    <field name="default" eval="False"/>
+    <field name="format">A4</field>
+    <field name="page_width">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">30</field>
+    <field name="margin_bottom">28</field>
+    <field name="margin_right">7</field>
+    <field name="margin_left">7</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">15</field>
+    <field name="dpi">90</field>
+</record>
+
+
+ <report id="warehouse_report_wizard"
+    model="warehouse.report.wizard"
+    string="Warehouse Report"
+    report_type="qweb-pdf"
+    name="dalia.warehouse_report_wizard_view"
+    paperformat="dalia.paperformat_warehouse_report_wizard"
+    menu="False"/>
+
+ <template id="warehouse_report_wizard_view">
+     <t t-call="web.html_container">
+         <div class="header" style="border-bottom: 10px solid black;">
+            <h3 class="text-center">Warehouse Report
+            
+                <span style="font-size: 16px;">
+                    <strong>From</strong>: <t t-esc="date_start"/>
+                    <strong>To</strong>: <t t-esc="date_end"/></span>
+                <span style="font-size: 16px;">
+                    <strong>From</strong>: <t t-esc="from_warehouse"/>
+                    <strong>To</strong>: <t t-esc="to_warehouse"/></span>
+           </h3>
+        </div>
+        <div class="article mt0 o_report_layout_standard">
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <th style="width: 16%">Date</th>
+                    <th class="text-center" style="width: 16%">Warehouse</th>
+                    <th class="text-center" style="width: 16%">Product Code</th>
+                    <th style="width: 16%">Quantity</th>
+                    <th style="width: 16%">Unit Price</th>
+                    <th style="width: 16%">Net Amount</th>
+
+                </thead>
+                <tbody>
+                <!-- <t t-set="days" t-value="[]"/>
+
+                    <t t-foreach="o.days_line" t-as="l">
+
+                    <t t-set="days" t-value="days+[l.action_id]"/>
+
+                    </t>
+
+                    <t t-foreach="set(days)" t-as="date">
+
+                    <div><strong t-esc="date.name"/></div>
+
+                    <t t-foreach="o.days_line" t-as="l">
+
+                    <t t-if="date.id==l.action_id.id">
+
+                    <div><span t-field="l.action_id"/></div>
+
+                    </t>
+
+                    </t>
+
+                    </t> -->
+
+
+
+
+
+
+                    <t t-foreach="docs" t-as="doc">
+                        <tr>
+                            <td><span t-esc="doc['date']"/></td>
+                            <td class="text-center"><span t-esc="doc['warehouse']"/></td>
+                            <td class="text-center"><span t-esc="doc['product_code']"/></td>
+                            <td class="text-center"><span t-esc="doc['quantity']"/></td>
+                            <td class="text-center"><span t-esc="doc['unit_price']"/></td>
+                            <td class="text-center"><span t-esc="doc['net_amount']"/></td>    
+                            
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+        <div class="footer o_standard_footer" style="border-top: 1px solid black;">
+            <div class="row text-center">
+                <div class="col col-12 text-center">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">Page:</li>
+                        <li class="list-inline-item">
+                            <span class="page"/>
+                        </li>
+                        <li class="list-inline-item">/</li>
+                        <li class="list-inline-item">
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </t>
+        </template> 
+
+  </data>
+</odoo>

@@ -1,0 +1,142 @@
+<odoo>
+	<data>
+		<record id="vendor_balance_report_wizard" model="ir.ui.view">
+			<field name="name">Vendor Balance Report Wizard</field>
+			<field name="model">vendor.balance.report.wizard</field>
+			<field name="type">form</field>
+		</record>
+		<act_window id="action_vendor_balance_report_wizard" name="Vendor Balance Report"
+            res_model="vendor.balance.report.wizard" view_mode="form" target="new" />
+		<menuitem action="action_vendor_balance_report_wizard" id="menu_vendor_balance_report"
+          parent="purchase.purchase_report"/>
+		<record id="paperformat_vendor_balance_report_wizard" model="report.paperformat">
+			<field name="name">Vendor Balance Summary</field>
+			<field name="default" eval="False"/>
+			<field name="format">A4</field>
+			<field name="page_width">0</field>
+			<field name="page_width">0</field>
+			<field name="orientation">Portrait</field>
+			<field name="margin_top">20</field>
+			<field name="margin_bottom">5</field>
+			<field name="margin_right">5</field>
+			<field name="margin_left">5</field>
+			<field name="header_line" eval="False"/>
+			<field name="header_spacing">15</field>
+			<field name="dpi">90</field>
+		</record>
+		<report id="vendor_balance_report_wizard"
+    model="vendor.balance.report.wizard"
+    string="Vendor Balance Report"
+    report_type="qweb-pdf"
+    name="dalia.vendor_balance_report_wizard_view"
+    paperformat="dalia.paperformat_vendor_balance_report_wizard"
+    menu="False"/>
+		<template id="vendor_balance_report_wizard_view">
+			<t t-call="web.html_container">
+				<div class="header" >
+					<h3 class="text-center">Vendor Balance Report
+           </h3>
+					<h4>
+						<span style="font-size: 16px;">
+							<strong>From</strong>: 
+							<t t-esc="date_start"/>
+							<strong>To</strong>: 
+							<t t-esc="date_end"/>
+							<strong>From</strong>: 
+							<t t-esc="from_warehouse"/>
+							<strong>To</strong>: 
+							<t t-esc="to_warehouse"/>
+						</span>
+					</h4>
+				</div>
+				<div class="article mt0 o_report_layout_standard">
+					<t t-foreach="vendor_warehouse" t-as="doc">
+						<div   class="p-3 mb-2 bg-dark text-white"> >
+							<strong>
+								<t t-esc="doc['vendor']"/>
+							</strong>
+						</div>
+                      
+					
+						<t t-foreach="doc['warehouse']" t-as="ware">
+                        
+							<strong>
+								<t t-esc="ware['warehouse']"/>
+							</strong>
+
+
+                        <table class="table table-condensed table-bordered">
+								<thead class="thead-dark">
+									<th style="width: 16%">Date</th>
+									<th class="text-center" style="width: 16%">Purchase ID</th>
+									<th style="width: 16%">Invoice ID</th>
+									<th style="width: 16%">Quantity</th>
+									<th style="width: 16%">Price Subtotal</th>
+									<th style="width: 16%">Product ID</th>
+									
+								</thead>
+								<tbody>
+									<t t-set="quantity" t-value="0" />
+									<t t-set="price_subtotal" t-value="0" />
+									<t t-foreach="items" t-as="item">
+										<tr t-if="doc['vendor'] == item['vendor'] and ware['warehouse'] == item['warehouse']  ">
+											<td class="text-center">
+												<span t-esc="item['date']"/>
+											</td>
+											<td class="text-center">
+												<span t-esc="item['purchase_id']"/>
+											</td>
+											<td class="text-center">
+												<span t-esc="item['invoice_id']"/>
+											</td>
+											<td class="text-center">
+												<span t-esc="item['quantity']"/>
+											</td>
+											<td class="text-center">
+												<span t-esc="item['price_subtotal']"/>
+											</td>
+											<td class="text-center">
+												<span t-esc="item['product_id']"/>
+											</td>
+											
+											<t t-set="quantity" t-value="quantity + item['quantity']"/>
+											<t t-set="price_subtotal" t-value="price_subtotal + item['price_subtotal']"/>
+										</tr>
+									</t>
+								</tbody>
+								<thead class="thead-light">
+									<tr>
+										<td align="center" colspan="3" >Total:</td>
+										<td class="text-center" >
+											<t t-esc="quantity" />
+										</td>
+										<td class="text-center"> $
+											<t t-esc="price_subtotal" />
+										</td>
+									</tr>
+								</thead>
+							</table>
+							
+						</t>
+					</t>
+				</div>
+				<div class="footer o_standard_footer" style="border-top: 1px solid black;">
+					<div class="row text-center">
+						<div class="col col-12 text-center">
+							<ul class="list-inline">
+								<li class="list-inline-item">Page:</li>
+								<li class="list-inline-item">
+									<span class="page"/>
+								</li>
+								<li class="list-inline-item">/</li>
+								<li class="list-inline-item">
+									<span class="topage"/>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</t>
+		</template>
+	</data>
+</odoo>

@@ -1,0 +1,21 @@
+  ware.append({
+                        'product_code': product_id,
+                        'warehouse': from_warehouse,
+                       
+                    })
+            
+        if {'warehouse': from_warehouse} not in ware :
+        #wh array contains unrepeated warehouses 
+                wh.append({'warehouse': from_warehouse})
+        for wha in wh :
+        #count till number of unique warehouses
+            for war in ware :
+                if war['warehouse']  == wha['warehouse'] : 
+                    if {'products': war['product_code']} not in pro :
+        #append unrepeated products in pro
+                        pro.append({'products': war['product_code']})
+         #append pro + warehouse in group        
+            group.append({'warehouse': from_warehouse,'product':pro} )
+            #initialize pro every time
+            pro=[]
+           
